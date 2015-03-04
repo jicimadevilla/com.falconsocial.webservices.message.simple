@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>JSON Message Listener</title>
+		<style type="text/css">
+			#console {
+				border: 1px solid #CCCCCC;
+				height: 80%;
+				width: 80%;
+				padding: 5px;
+			}
+			
+			#console p {
+				padding: 0;
+				margin: 0;
+			}
+		</style>
+		<script type="text/javascript">
+			var wsUri = "ws://" + document.location.host + document.location.pathname	+ "messageListener";
+			var websocket = new WebSocket(wsUri);
+		
+			websocket.onopen = function(){
+			  log("Connection opened");
+			};
+			
+			websocket.onmessage = function (evt){   
+		    var message = evt.data;
+		    log(message);
+			};
+			
+			websocket.onclose = function(){ 
+				log("Connection closed");
+			};
+			
+			function log (message) {
+		    var console = document.getElementById('console');
+		    var p = document.createElement('p');
+		    p.style.wordWrap = 'break-word';
+		    p.appendChild(document.createTextNode(message));
+		    console.appendChild(p);
+		    while (console.childNodes.length > 25) {
+		    	console.removeChild(console.firstChild);
+		    }
+		    console.scrollTop = console.scrollHeight;
+			}
+
+	</script>
+	</head>
+	<body>
+		<h1>JSON Message Listener</h1>
+			<div id="console"></div>
+	</body>
+</html>
